@@ -3,12 +3,25 @@ import { GoogleGenAI, Type } from "@google/genai";
 import { AIAnalysisResult, InterviewQuestion, Candidate } from '../types';
 
 // Properly initialize the Google GenAI client using process.env.API_KEY
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const apiKey = process.env.API_KEY;
+const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
 
 export const analyzeResumeWithGemini = async (
   resumeText: string,
   jobDescription: string
 ): Promise<AIAnalysisResult> => {
+  if (!ai) {
+    return {
+      score: 50,
+      summary: "AI analysis not available - API key not configured",
+      contactDetails: { name: "", email: "", phone: "", location: "", linkedin: "" },
+      pros: [],
+      cons: [],
+      experienceRating: "Unknown",
+      skillsAnalysis: [],
+      recommendedAction: "Keep on File"
+    };
+  }
   // Use gemini-3-pro-preview for complex reasoning tasks like candidate matching
   const prompt = `
     You are an expert Technical Recruiter and HR Specialist.
