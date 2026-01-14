@@ -118,6 +118,7 @@ export const analyzeResumeWithGemini = async (
 };
 
 export const generateJobDescription = async (title: string, keywords: string[]): Promise<string> => {
+  if (!ai) return "AI generation not available - API key not configured";
     try {
         // Simple text generation task using gemini-3-flash-preview
         const response = await ai.models.generateContent({
@@ -132,6 +133,7 @@ export const generateJobDescription = async (title: string, keywords: string[]):
 }
 
 export const generateWeightedSkills = async (title: string): Promise<{ skill: string; weight: number }[]> => {
+  if (!ai) return [];
   const prompt = `
     Generate a list of 6-10 key technical and soft skills for a "${title}" role.
     Assign a relevance weight from 1 to 10 for each skill (10 being mandatory/critical, 1 being nice-to-have).
@@ -166,6 +168,7 @@ export const generateWeightedSkills = async (title: string): Promise<{ skill: st
 };
 
 export const generateInterviewFocusAreas = async (jobTitle: string, description: string): Promise<string[]> => {
+  if (!ai) return ["Technical Skills", "Experience", "Cultural Fit"];
     const prompt = `
         Identify 3-5 key focus areas or question categories for interviewing a ${jobTitle}.
         Examples: "System Design", "Cultural Fit", "React Proficiency", "Problem Solving".
@@ -191,6 +194,7 @@ export const generateInterviewFocusAreas = async (jobTitle: string, description:
 }
 
 export const generateQuestionsByFocus = async (jobTitle: string, focusArea: string): Promise<InterviewQuestion[]> => {
+  if (!ai) return [{ id: "1", question: `Tell us about your experience with ${focusArea}.`, category: "Technical", difficulty: "Medium" }];
     const prompt = `
         Generate 2 specific interview questions for a ${jobTitle} related to the focus area: "${focusArea}".
         Return JSON array of objects with 'id' (random string), 'text', 'type' (use 'technical' or 'behavioral'), and 'focusArea' ("${focusArea}").
@@ -222,6 +226,7 @@ export const generateQuestionsByFocus = async (jobTitle: string, focusArea: stri
 }
 
 export const generateInterviewQuestions = async (jobTitle: string, description: string): Promise<InterviewQuestion[]> => {
+  if (!ai) return [{ id: "1", question: "Tell us about yourself.", category: "Behavioral", difficulty: "Easy" }];
     const prompt = `
       Create 5 interview questions for a ${jobTitle} role.
       Job Description: ${description.substring(0, 500)}...
@@ -262,6 +267,7 @@ export const generateInterviewQuestions = async (jobTitle: string, description: 
 }
 
 export const generateEmailSubject = async (type: string, jobTitle: string, candidateName: string): Promise<string> => {
+  if (!ai) return `Update regarding ${jobTitle}`;
     const prompt = `Generate a professional email subject line for a ${type} email to candidate ${candidateName} for the role of ${jobTitle}. Return just the string.`;
     try {
         const response = await ai.models.generateContent({
@@ -276,6 +282,7 @@ export const generateEmailSubject = async (type: string, jobTitle: string, candi
 }
 
 export const generateEmailBody = async (type: string, jobTitle: string, candidateName: string): Promise<string> => {
+  if (!ai) return "Please contact us for an update.";
     const prompt = `Write a professional email body for a ${type} email to candidate ${candidateName} for the role of ${jobTitle}. Keep it concise and polite. Return just the string.`;
     try {
         const response = await ai.models.generateContent({
@@ -297,6 +304,7 @@ export const generateEmailContent = async (type: 'invite' | 'reject' | 'offer', 
 }
 
 export const compareCandidates = async (candidates: Candidate[], jobTitle: string): Promise<string> => {
+  if (!ai) return "AI comparison not available - API key not configured";
     const candidatesData = candidates.map(c => `
       Candidate: ${c.name}
       Score: ${c.analysis?.score || 0}/100
