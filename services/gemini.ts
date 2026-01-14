@@ -22,7 +22,7 @@ export const analyzeResumeWithGemini = async (
       recommendedAction: "Keep on File"
     };
   }
-  // Use gemini-3-pro-preview for complex reasoning tasks like candidate matching
+  // Use gemini-1.5-pro for complex reasoning tasks like candidate matching
   const prompt = `
     You are an expert Technical Recruiter and HR Specialist.
     Analyze the following resume text against the provided job description.
@@ -45,7 +45,7 @@ export const analyzeResumeWithGemini = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-pro-preview",
+      model: "gemini-1.5-pro",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -120,9 +120,9 @@ export const analyzeResumeWithGemini = async (
 export const generateJobDescription = async (title: string, keywords: string[]): Promise<string> => {
   if (!ai) return "AI generation not available - API key not configured";
     try {
-        // Simple text generation task using gemini-3-flash-preview
+        // Simple text generation task using gemini-1.5-flash
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: `Write a professional job description for a "${title}". Include these keywords: ${keywords.join(', ')}. Keep it under 200 words.`
         });
         return response.text || "Could not generate description.";
@@ -142,7 +142,7 @@ export const generateWeightedSkills = async (title: string): Promise<{ skill: st
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -177,7 +177,7 @@ export const generateInterviewFocusAreas = async (jobTitle: string, description:
     `;
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: prompt,
             config: {
                 responseMimeType: "application/json",
@@ -201,7 +201,7 @@ export const generateQuestionsByFocus = async (jobTitle: string, focusArea: stri
     `;
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: prompt,
             config: {
                 responseMimeType: "application/json",
@@ -237,7 +237,7 @@ export const generateInterviewQuestions = async (jobTitle: string, description: 
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: prompt,
             config: {
                 responseMimeType: "application/json",
@@ -271,7 +271,7 @@ export const generateEmailSubject = async (type: string, jobTitle: string, candi
     const prompt = `Generate a professional email subject line for a ${type} email to candidate ${candidateName} for the role of ${jobTitle}. Return just the string.`;
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: prompt,
              config: { responseMimeType: "text/plain" }
         });
@@ -286,7 +286,7 @@ export const generateEmailBody = async (type: string, jobTitle: string, candidat
     const prompt = `Write a professional email body for a ${type} email to candidate ${candidateName} for the role of ${jobTitle}. Keep it concise and polite. Return just the string.`;
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3-flash-preview",
+            model: "gemini-1.5-flash",
             contents: prompt,
             config: { responseMimeType: "text/plain" }
         });
@@ -323,9 +323,9 @@ export const compareCandidates = async (candidates: Candidate[], jobTitle: strin
     `;
 
     try {
-        // Using gemini-3-pro-preview for advanced reasoning and comparative analysis
+        // Using gemini-1.5-pro for advanced reasoning and comparative analysis
         const response = await ai.models.generateContent({
-            model: "gemini-3-pro-preview",
+            model: "gemini-1.5-pro",
             contents: prompt,
             config: { responseMimeType: "text/plain" }
         });
