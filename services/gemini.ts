@@ -22,7 +22,7 @@ export const analyzeResumeWithGemini = async (
       recommendedAction: "Keep on File"
     };
   }
-  // Use gemini-1.5-pro for complex reasoning tasks like candidate matching
+  // Use gemini-1.5-flash for complex reasoning tasks like candidate matching
   const prompt = `
     You are an expert Technical Recruiter and HR Specialist.
     Analyze the following resume text against the provided job description.
@@ -45,7 +45,7 @@ export const analyzeResumeWithGemini = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-pro",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -323,9 +323,9 @@ export const compareCandidates = async (candidates: Candidate[], jobTitle: strin
     `;
 
     try {
-        // Using gemini-1.5-pro for advanced reasoning and comparative analysis
+        // Using gemini-1.5-flash for advanced reasoning and comparative analysis
         const response = await ai.models.generateContent({
-            model: "gemini-1.5-pro",
+            model: "gemini-1.5-flash",
             contents: prompt,
             config: { responseMimeType: "text/plain" }
         });
