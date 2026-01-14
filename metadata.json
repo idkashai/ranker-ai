@@ -1,0 +1,7 @@
+{
+  "name": "Ranker AI",
+  "description": "AI-powered resume screening and recruitment platform. Automates candidate analysis, scoring, and outreach using Google Gemini AI.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
